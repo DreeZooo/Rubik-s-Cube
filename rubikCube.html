@@ -4,169 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rubik's Cube en Three.js</title>
-    <style>
-        body { margin: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; }
-        canvas { display: block; }
-        .controls { margin-top: 10px; }
-        button { padding: 10px; margin: 5px; font-size: 16px; cursor: pointer; }
-    </style>
 </head>
 <body>
+    <h1>Rubik's Cube 3D</h1>
+    <div class="controls">
+       <!-- Mouvements de base sur l'axe Y -->
+    <button onclick="rotateLayer('y', 1, -Math.PI / 2)">U</button>
+    <button onclick="rotateLayer('y', 1, Math.PI / 2)">U'</button>
+    <button onclick="rotateLayer('y', -1, Math.PI / 2)">D</button>
+    <button onclick="rotateLayer('y', -1, -Math.PI / 2)">D'</button>
+
+    <!-- Mouvements de base sur l'axe X -->
+    <button onclick="rotateLayer('x', 1, -Math.PI / 2)">R</button>
+    <button onclick="rotateLayer('x', 1, Math.PI / 2)">R'</button>
+    <button onclick="rotateLayer('x', -1, Math.PI / 2)">L</button>
+    <button onclick="rotateLayer('x', -1, -Math.PI / 2)">L'</button>
+
+    <!-- Mouvements de base sur l'axe Z -->
+    <button onclick="rotateLayer('z', 1, -Math.PI / 2)">F</button>
+    <button onclick="rotateLayer('z', 1, Math.PI / 2)">F'</button>
+    <button onclick="rotateLayer('z', -1, Math.PI / 2)">B</button>
+    <button onclick="rotateLayer('z', -1, -Math.PI / 2)">B'</button>
+
+    <!-- Mouvements doubles (90 degrés dans deux directions) -->
+
+    <!-- Mouvements combinés sur Y -->
+    <button onclick="rotateLayer('y', 0, -Math.PI / 2), rotateLayer('y', 1, -Math.PI / 2)">u</button>
+    <button onclick="rotateLayer('y', 0, Math.PI / 2), rotateLayer('y', 1, Math.PI / 2)">u'</button>
+
+    <!-- Mouvements combinés sur Z -->
+    <button onclick="rotateLayer('z', -1, Math.PI / 2), rotateLayer('z', 0, Math.PI / 2)">l</button>
+    <button onclick="rotateLayer('z', -1, -Math.PI / 2), rotateLayer('z', 0, -Math.PI / 2)">l'</button>
+
+    <!-- Mouvements combinés sur Y (doubles) -->
+    <button onclick="rotateLayer('y', -1, Math.PI / 2), rotateLayer('y', 0, Math.PI / 2)">d</button>
+    <button onclick="rotateLayer('y', -1, -Math.PI / 2), rotateLayer('y', 0, -Math.PI / 2)">d'</button>
+
+    <!-- Mouvements combinés sur X -->
+    <button onclick="rotateLayer('x', -1, Math.PI / 2), rotateLayer('x', 0, Math.PI / 2)">f</button>
+    <button onclick="rotateLayer('x', -1, -Math.PI / 2), rotateLayer('x', 0, -Math.PI / 2)">f'</button>
+
+    <!-- Mouvements de la couche médiane (M) -->
+    <button onclick="rotateLayer('x', 0, -Math.PI / 2)">M</button>
+    <button onclick="rotateLayer('x', 0, Math.PI / 2)">M'</button>
+
+    <!-- Mouvements de la couche médiane inverse (m) -->
+    <button onclick="rotateLayer('x', 1, -Math.PI / 2), rotateLayer('x', -1, -Math.PI)">m</button>
+    <button onclick="rotateLayer('x', 1, Math.PI / 2), rotateLayer('x', -1, Math.PI)">m'</button>
+
+    <!-- Mouvements de la couche équatoriale (E) -->
+    <button onclick="rotateLayer('y', 0, -Math.PI / 2)">E</button>
+    <button onclick="rotateLayer('y', 0, Math.PI / 2)">E'</button>
+
+    <!-- Mouvements de la couche équatoriale inverse (e) -->
+    <button onclick="rotateLayer('y', 1, -Math.PI / 2), rotateLayer('y', -1, -Math.PI)">e</button>
+    <button onclick="rotateLayer('y', 1, Math.PI / 2), rotateLayer('y', -1, Math.PI)">e'</button>
+
+    <!-- Mouvements de la couche du milieu (S) -->
+    <button onclick="rotateLayer('z', 0, -Math.PI / 2)">S</button>
+    <button onclick="rotateLayer('z', 0, Math.PI / 2)">S'</button>
+
+    <!-- Mouvements de la couche du milieu inverse (s) -->
+    <button onclick="rotateLayer('z', 1, -Math.PI / 2), rotateLayer('z', -1, -Math.PI)">s</button>
+    <button onclick="rotateLayer('z', 1, Math.PI / 2), rotateLayer('z', -1, Math.PI)">s'</button>
+
+    <!-- Mouvements de la petite couche de droite (r) -->
+    <button onclick="rotateLayer('z', 1, -Math.PI / 2), rotateLayer('z', 0, -Math.PI / 2)">r</button>
+    <button onclick="rotateLayer('z', 1, Math.PI / 2), rotateLayer('z', 0, Math.PI / 2)">r</button>
+
+    <!-- Mouvements de la petite couche arrière (b) -->
+    <button onclick="rotateLayer('x', 1, -Math.PI / 2), rotateLayer('x', 0, -Math.PI)">b</button>
+    <button onclick="rotateLayer('x', 1, Math.PI / 2), rotateLayer('x', 0, Math.PI)">b'</button>
+
+
+    <!-- Mouvements en sens horaire et antihoraire sur l'axe Y -->
+    <button onclick="rotateLayer('y', 1, Math.PI)">U2</button>
+    <button onclick="rotateLayer('y', -1, Math.PI)">D2</button>
+
+    <!-- Mouvements en sens horaire et antihoraire sur l'axe X -->
+    <button onclick="rotateLayer('x', 1, Math.PI)">R2</button>
+    <button onclick="rotateLayer('x', -1, Math.PI)">L2</button>
+
+    <!-- Mouvements en sens horaire et antihoraire sur l'axe Z -->
+    <button onclick="rotateLayer('z', 1, Math.PI)">F2</button>
+    <button onclick="rotateLayer('z', -1, Math.PI)">B2</button>
+
+
+
+        <button onclick="shuffleCube()">Mélanger</button>
+        <button onclick="resetCube()">Reset</button>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <div class="controls">
-        <button onclick="rotateLayer('x', 1, Math.PI / 2)">Rotate X1</button>
-        <button onclick="rotateLayer('x', -1, -Math.PI / 2)">Rotate X-1</button>
-        <button onclick="rotateLayer('y', 1, Math.PI / 2)">Rotate Y1</button>
-        <button onclick="rotateLayer('y', -1, -Math.PI / 2)">Rotate Y-1</button>
-        <button onclick="rotateLayer('z', 1, Math.PI / 2)">Rotate Z1</button>
-        <button onclick="rotateLayer('z', -1, -Math.PI / 2)">Rotate Z-1</button>
-    </div>
-    <script>
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight - 50);
-        document.body.appendChild(renderer.domElement);
-
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-        scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
-        directionalLight.position.set(5, 5, 5);
-        scene.add(directionalLight);
-
-        const cubeSize = 1;
-        const gap = 0.05;
-        const cubes = [];
-
-        for (let x = -1; x <= 1; x++) {
-            for (let y = -1; y <= 1; y++) {
-                for (let z = -1; z <= 1; z++) {
-                    const geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
-                    const materials = [
-                        new THREE.MeshStandardMaterial({ color: 0xff0000 }), // Face droite (X+)
-                        new THREE.MeshStandardMaterial({ color: 0x00ff00 }), // Face gauche (X-)
-                        new THREE.MeshStandardMaterial({ color: 0x0000ff }), // Face haute (Y+)
-                        new THREE.MeshStandardMaterial({ color: 0xffff00 }), // Face basse (Y-)
-                        new THREE.MeshStandardMaterial({ color: 0xffa500 }), // Face avant (Z+)
-                        new THREE.MeshStandardMaterial({ color: 0xffffff })  // Face arrière (Z-)
-                    ];
-                    const cube = new THREE.Mesh(geometry, materials);
-                    cube.position.set(x * (cubeSize + gap), y * (cubeSize + gap), z * (cubeSize + gap));
-                    scene.add(cube);
-                    cubes.push(cube);
-                }
-            }
-        }
-
-        camera.position.z = 5;
-
-        function rotateLayer(axis, index, angle) {
-            const rotatingCubes = cubes.filter(cube => Math.round(cube.position[axis]) === index);
-            const group = new THREE.Group();
-            rotatingCubes.forEach(cube => {
-                scene.remove(cube);
-                group.add(cube);
-            });
-            scene.add(group);
-
-            gsap.to(group.rotation, {
-                duration: 0.5,
-                [axis]: "+=" + angle,
-                ease: "power2.inOut",
-                onComplete: () => {
-                    rotatingCubes.forEach(cube => {
-                        cube.updateMatrixWorld();
-                        const newPosition = new THREE.Vector3();
-                        newPosition.setFromMatrixPosition(cube.matrixWorld);
-                        cube.position.copy(newPosition);
-                        cube.rotation.set(0, 0, 0);
-                        group.remove(cube);
-                        scene.add(cube);
-
-                        // Réorganiser les matériaux en fonction de la rotation
-                        reorderMaterials(cube, axis, angle);
-                    });
-                    scene.remove(group);
-                }
-            });
-        }
-
-        function reorderMaterials(cube, axis, angle) {
-            const materials = cube.material;
-            const newMaterials = materials.slice();
-
-            if (axis === 'x') {
-                if (angle > 0) {
-                    // Rotation autour de l'axe X dans le sens positif
-                    [newMaterials[2], newMaterials[3], newMaterials[4], newMaterials[5]] =
-                        [newMaterials[5], newMaterials[4], newMaterials[2], newMaterials[3]];
-                } else {
-                    // Rotation autour de l'axe X dans le sens négatif
-                    [newMaterials[2], newMaterials[3], newMaterials[4], newMaterials[5]] =
-                        [newMaterials[4], newMaterials[5], newMaterials[3], newMaterials[2]];
-                }
-            } else if (axis === 'y') {
-                if (angle > 0) {
-                    // Rotation autour de l'axe Y dans le sens positif
-                    [newMaterials[0], newMaterials[1], newMaterials[4], newMaterials[5]] =
-                        [newMaterials[5], newMaterials[4], newMaterials[0], newMaterials[1]];
-                } else {
-                    // Rotation autour de l'axe Y dans le sens négatif
-                    [newMaterials[0], newMaterials[1], newMaterials[4], newMaterials[5]] =
-                        [newMaterials[4], newMaterials[5], newMaterials[1], newMaterials[0]];
-                }
-            } else if (axis === 'z') {
-                if (angle > 0) {
-                    // Rotation autour de l'axe Z dans le sens positif
-                    [newMaterials[0], newMaterials[1], newMaterials[2], newMaterials[3]] =
-                        [newMaterials[3], newMaterials[2], newMaterials[0], newMaterials[1]];
-                } else {
-                    // Rotation autour de l'axe Z dans le sens négatif
-                    [newMaterials[0], newMaterials[1], newMaterials[2], newMaterials[3]] =
-                        [newMaterials[2], newMaterials[3], newMaterials[1], newMaterials[0]];
-                }
-            }
-
-            cube.material = newMaterials;
-        }
-
-        // Variables pour la rotation de la caméra
-        let rotationX = 0;
-        let rotationY = 0;
-
-        document.addEventListener('keydown', (event) => {
-            const rotationSpeed = 0.1; // Vitesse de rotation
-            const zoomSpeed = 0.5; // Vitesse de zoom
-
-            if (event.key === 'ArrowUp') {
-                rotationX -= rotationSpeed;
-            } else if (event.key === 'ArrowDown') {
-                rotationX += rotationSpeed;
-            } else if (event.key === 'ArrowLeft') {
-                rotationY -= rotationSpeed;
-            } else if (event.key === 'ArrowRight') {
-                rotationY += rotationSpeed;
-            } else if (event.key === '+') {
-                camera.position.z -= zoomSpeed;
-            } else if (event.key === '-') {
-                camera.position.z += zoomSpeed;
-            }
-
-            // Mettre à jour la position de la caméra
-            camera.position.x = 5 * Math.sin(rotationY) * Math.cos(rotationX);
-            camera.position.y = 5 * Math.sin(rotationX);
-            camera.position.z = 5 * Math.cos(rotationY) * Math.cos(rotationX);
-
-            // La caméra doit toujours regarder le centre de la scène
-            camera.lookAt(scene.position);
-        });
-
-        function animate() {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
-        }
-        animate();
-    </script>
+    <script src="rubikCube.js"></script>
 </body>
 </html>

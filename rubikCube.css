@@ -1,79 +1,42 @@
 body {
+    margin: 0;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    height: 100vh;
-    background: #1e1e1e;
-    color: white;
     font-family: Arial, sans-serif;
-    margin: 0;
-}
-
-.scene {
-    width: 250px;
-    height: 250px;
-    perspective: 1000px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.cube-container {
-    width: 150px;
-    height: 150px;
+    background: #000000;
+    color: aliceblue;
+    height: 100vh;
     position: relative;
-    transform-style: preserve-3d;
-    transform-origin: center;
 }
 
-.cube {
-    width: 150px;
-    height: 150px;
+canvas {
+    display: block;
+    flex: 1;
+}
+
+h1 {
     position: absolute;
-    transform-style: preserve-3d;
+    top: 10px;
+    text-align: center;
+    width: 100%;
 }
-
-.slice-x, .slice-y, .slice-z {
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    transform-style: preserve-3d;
-}
-
-.face {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    border: 2px solid black;
-}
-
-.front  { transform: rotateY(  0deg) translateZ(25px); background: red; }
-.back   { transform: rotateY(180deg) translateZ(25px); background: blue; }
-.right  { transform: rotateY( 90deg) translateZ(25px); background: green; }
-.left   { transform: rotateY(-90deg) translateZ(25px); background: orange; }
-.top    { transform: rotateX( 90deg) translateZ(25px); background: yellow; }
-.bottom { transform: rotateX(-90deg) translateZ(25px); background: white; }
 
 .controls {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    max-width: 300px;
-    margin-top: 20px;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: #000000;
+    padding: 10px;
 }
 
 button {
     padding: 10px;
-    font-size: 14px;
-    background: #444;
-    color: white;
-    border: none;
+    margin: 5px;
+    font-size: 16px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-
-button:hover {
-    background: #666;
 }
